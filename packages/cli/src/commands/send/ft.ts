@@ -358,7 +358,8 @@ export async function sendToken(
     guardContract.utxo,
     newFeeUtxo,
   ];
-
+  console.log('tokenContracts.length: ', inputUtxos.length);
+  console.log('MAX_INPUT:  ', MAX_INPUT);
   if (inputUtxos.length > MAX_INPUT) {
     throw new Error('to much input');
   }

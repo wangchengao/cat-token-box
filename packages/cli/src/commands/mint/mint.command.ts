@@ -144,7 +144,6 @@ export class MintCommand extends BoardcastCommand {
             }
 
             amount = BigInt(500);
-            
             const mintTxIdOrErr = await openMint(
               this.configService,
               this.walletService,

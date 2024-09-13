@@ -203,9 +203,10 @@ export async function broadcast(
   txHex: string,
 ): Promise<string | Error> {
   if (config.useRpc()) {
+    console.log('broadcast from rpc');
     return rpc_broadcast(config, wallet.getWalletName(), txHex);
   }
-
+  console.log('broadcast from http');
   const url = `${config.getMempoolApiHost()}/api/tx`;
   return fetch(
     url,

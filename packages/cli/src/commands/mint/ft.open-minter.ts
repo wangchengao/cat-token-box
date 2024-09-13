@@ -364,7 +364,7 @@ export async function openMint(
     const res = await broadcast(config, wallet, revealTx.uncheckedSerialize());
 
     if(res instanceof Error) {
-        //logerror('broadcast tx failed!', res);
+        logerror('broadcast tx failed!', res);
         return res;
     }
     spendService.updateSpends(revealTx);

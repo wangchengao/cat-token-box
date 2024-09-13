@@ -161,7 +161,7 @@ export const getTokenMinter = async function (
   metadata: TokenMetadata,
   offset: number = 0,
 ): Promise<OpenMinterContract | null> {
-  const url = `${config.getTracker()}/api/minters/${metadata.tokenId}/utxos?limit=1&offset=${offset}`;
+  const url = `${config.getTracker()}/api/minters/${metadata.tokenId}/utxos?limit=100&offset=${offset*100}`;
   return fetch(url, config.withProxy())
     .then((res) => res.json())
     .then((res: any) => {
@@ -211,7 +211,23 @@ export const getTokenMinter = async function (
       }
     })
     .then((minters) => {
-      return minters[0] || null;
+      // console.log('minters', minters); // 打印原始 miners 数组以供调试
+
+      // 过滤出 remainingSupply 大于 500 的 miners
+      const eligibleMiners = minters.filter(
+        (miner) => miner.state.data.remainingSupply > 500,
+      );
+
+      // 如果有符合条件的 miners，随机选择一个；如果没有，返回 null
+      const selectedMinter =
+        eligibleMiners.length > 0
+          ? eligibleMiners[Math.floor(Math.random() * eligibleMiners.length)]
+          : null;
+
+      // console.log('Selected minter', selectedMinter); // 打印随机选择的 minter 以供调试
+
+      // 返回随机选择的 minter 或 null
+      return selectedMinter;
     })
     .catch((e) => {
       logerror(`fetch minters failed, minter: ${metadata.minterAddr}`, e);

@@ -164,28 +164,28 @@ export class SendCommand extends BoardcastCommand {
     const cachedTxs: Map<string, btc.Transaction> = new Map();
     console.log('tokenContracts.length: ', tokenContracts.length);
 
-    // if (tokenContracts.length > 4) {
-    //   console.info(`Merging your [${token.info.symbol}] tokens ...`);
-    //   const [mergedTokens, newfeeUtxos, e] = await mergeTokens(
-    //     this.configService,
-    //     this.walletService,
-    //     this.spendService,
-    //     feeUtxos,
-    //     feeRate,
-    //     token,
-    //     tokenContracts,
-    //     address,
-    //     cachedTxs,
-    //   );
-    //
-    //   if (e instanceof Error) {
-    //     logerror('merge token failed!', e);
-    //     return;
-    //   }
-    //
-    //   tokenContracts = mergedTokens;
-    //   feeUtxos = newfeeUtxos;
-    // }
+    if (tokenContracts.length > 4) {
+      console.info(`Merging your [${token.info.symbol}] tokens ...`);
+      const [mergedTokens, newfeeUtxos, e] = await mergeTokens(
+        this.configService,
+        this.walletService,
+        this.spendService,
+        feeUtxos,
+        feeRate,
+        token,
+        tokenContracts,
+        address,
+        cachedTxs,
+      );
+
+      if (e instanceof Error) {
+        logerror('merge token failed!', e);
+        return;
+      }
+
+      tokenContracts = mergedTokens;
+      feeUtxos = newfeeUtxos;
+    }
 
     const feeUtxo = pickLargeFeeUtxo(feeUtxos);
 

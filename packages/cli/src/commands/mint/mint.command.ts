@@ -6,7 +6,6 @@ import {
   logerror,
   getTokenMinterCount,
   isOpenMinter,
-  sleep,
   needRetry,
   unScaleByDecimals,
   getTokens,
@@ -105,16 +104,18 @@ export class MintCommand extends BoardcastCommand {
           }
 
           const offset = getRandomInt(count - 1) / 92;
-          const minter = await getTokenMinter(
+          const minters = await getTokenMinter(
             this.configService,
             this.walletService,
             token,
             offset,
           );
 
-          if (minter == null) {
+          if (minters.length == 0) {
             continue;
           }
+
+          const minter = minters[0];
 
           if (isOpenMinter(token.info.minterMd5)) {
             const minterState = minter.state.data;

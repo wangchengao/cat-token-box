@@ -160,7 +160,7 @@ export const getTokenMinter = async function (
   wallet: WalletService,
   metadata: TokenMetadata,
   offset: number = 0,
-): Promise<OpenMinterContract | null> {
+): Promise<OpenMinterContract[]> {
   const url = `${config.getTracker()}/api/minters/${metadata.tokenId}/utxos?limit=100&offset=${offset * 92}`;
   return fetch(url, config.withProxy())
     .then((res) => res.json())
@@ -207,33 +207,23 @@ export const getTokenMinter = async function (
           }),
         );
       } else {
-        throw new Error('Unkown minter!');
+        throw new Error('Unknown minter!');
       }
     })
     .then((minters) => {
-      // console.log('minters', minters); // 打印原始 miners 数组以供调试
-
-      // 过滤出 remainingSupply 大于 2000 的 miners
+      // 过滤出 remainingSupply 大于 1200 的 miners
       const eligibleMiners = minters.filter(
         (miner) =>
           miner.state.data.remainingSupply > 1200 &&
           miner.state.data.remainingSupply < 2000,
       );
 
-      // 如果有符合条件的 miners，随机选择一个；如果没有，返回 null
-      const selectedMinter =
-        eligibleMiners.length > 0
-          ? eligibleMiners[Math.floor(Math.random() * eligibleMiners.length)]
-          : null;
-
-      // console.log('Selected minter', selectedMinter); // 打印随机选择的 minter 以供调试
-
-      // 返回随机选择的 minter 或 null
-      return selectedMinter;
+      // 返回所有符合条件的 miners
+      return eligibleMiners;
     })
     .catch((e) => {
       logerror(`fetch minters failed, minter: ${metadata.minterAddr}`, e);
-      return null;
+      return []; // 返回空数组表示没有找到符合条件的矿工
     });
 };
 

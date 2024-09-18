@@ -128,7 +128,7 @@ export class MintCommand extends BoardcastCommand {
               'minter.state.data.remainingSupply',
               minter.state.data.remainingSupply,
             );
-            if (minter.state.data.remainingSupply < limit) {
+            if (minter.state.data.remainingSupply < 1200) {
               console.warn(
                 `small limit of ${unScaleByDecimals(limit, token.info.decimals)} in the minter UTXO!`,
               );

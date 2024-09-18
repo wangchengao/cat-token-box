@@ -161,7 +161,7 @@ export const getTokenMinter = async function (
   metadata: TokenMetadata,
   offset: number = 0,
 ): Promise<OpenMinterContract[]> {
-  const url = `${config.getTracker()}/api/minters/${metadata.tokenId}/utxos?limit=100&offset=${offset * 1000}`;
+  const url = `${config.getTracker()}/api/minters/${metadata.tokenId}/utxos?limit=200&offset=${offset}`;
   return fetch(url, config.withProxy())
     .then((res) => res.json())
     .then((res: any) => {

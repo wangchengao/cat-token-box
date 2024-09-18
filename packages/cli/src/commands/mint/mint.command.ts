@@ -82,7 +82,6 @@ export class MintCommand extends BoardcastCommand {
 
         const MAX_RETRY_COUNT = 10;
 
-        // @ts-ignore
         for (let index = 0; index < MAX_RETRY_COUNT; index++) {
           // await this.merge(token, address);
           const feeRate = await this.getFeeRate();
@@ -104,7 +103,8 @@ export class MintCommand extends BoardcastCommand {
             return;
           }
 
-          const offset = getRandomInt(count - 1) / 1000;
+          const offset = getRandomInt(count - 1 - 200);
+          console.info('offset: ', offset);
           const minters = await getTokenMinter(
             this.configService,
             this.walletService,

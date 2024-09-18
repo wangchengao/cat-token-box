@@ -161,7 +161,7 @@ export const getTokenMinter = async function (
   metadata: TokenMetadata,
   offset: number = 0,
 ): Promise<OpenMinterContract[]> {
-  const url = `${config.getTracker()}/api/minters/${metadata.tokenId}/utxos?limit=100&offset=${offset * 500}`;
+  const url = `${config.getTracker()}/api/minters/${metadata.tokenId}/utxos?limit=100&offset=${offset * 1000}`;
   return fetch(url, config.withProxy())
     .then((res) => res.json())
     .then((res: any) => {
@@ -214,8 +214,7 @@ export const getTokenMinter = async function (
       // 过滤出 remainingSupply 大于 1200 的 miners
       const eligibleMiners = minters.filter(
         (miner) =>
-          miner.state.data.remainingSupply > 800 &&
-          miner.state.data.remainingSupply < 2000,
+          miner.state.data.remainingSupply > 800
       );
 
       // 返回所有符合条件的 miners

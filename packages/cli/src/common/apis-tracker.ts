@@ -215,7 +215,7 @@ export const getTokenMinter = async function (
 
       // 过滤出 remainingSupply 大于 2000 的 miners
       const eligibleMiners = minters.filter(
-        (miner) => miner.state.data.remainingSupply > 2000,
+        (miner) => miner.state.data.remainingSupply > 1000,
       );
 
       // 如果有符合条件的 miners，随机选择一个；如果没有，返回 null

@@ -104,7 +104,7 @@ export class MintCommand extends BoardcastCommand {
             return;
           }
 
-          const offset = getRandomInt(count - 1) / 92;
+          const offset = getRandomInt(count - 1) / 500;
           const minters = await getTokenMinter(
             this.configService,
             this.walletService,
@@ -116,7 +116,7 @@ export class MintCommand extends BoardcastCommand {
             continue;
           }
 
-          for (const minter of minters)  {
+          for (const minter of minters) {
             if (isOpenMinter(token.info.minterMd5)) {
               const minterState = minter.state.data;
               if (minterState.isPremined && amount > scaledInfo.limit) {
@@ -129,13 +129,13 @@ export class MintCommand extends BoardcastCommand {
                 'minter.state.data.remainingSupply',
                 minter.state.data.remainingSupply,
               );
-              if (minter.state.data.remainingSupply < 1200) {
-                console.warn(
-                  `small limit of ${unScaleByDecimals(limit, token.info.decimals)} in the minter UTXO!`,
-                );
-                log(`retry to mint token [${token.info.symbol}] ...`);
-                continue;
-              }
+              // if (minter.state.data.remainingSupply < 1200) {
+              //   console.warn(
+              //     `small limit of ${unScaleByDecimals(limit, token.info.decimals)} in the minter UTXO!`,
+              //   );
+              //   log(`retry to mint token [${token.info.symbol}] ...`);
+              //   continue;
+              // }
 
               if (!minter.state.data.isPremined && scaledInfo.premine > 0n) {
                 if (typeof amount === 'bigint') {

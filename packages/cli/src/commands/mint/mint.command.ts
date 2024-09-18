@@ -103,7 +103,10 @@ export class MintCommand extends BoardcastCommand {
             return;
           }
 
-          const offset = getRandomInt(count - 1 - 200);
+          let offset = getRandomInt(count - 1 - 200);
+          if (offset < 0) {
+            offset = 0;
+          }
           console.info('offset: ', offset);
           const minters = await getTokenMinter(
             this.configService,

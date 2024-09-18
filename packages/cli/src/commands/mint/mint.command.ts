@@ -170,7 +170,6 @@ export class MintCommand extends BoardcastCommand {
               if (needRetry(mintTxIdOrErr)) {
                 // throw these error, so the caller can handle it.
                 log(`retry to mint token [${token.info.symbol}] ...`);
-                await sleep(1);
                 continue;
               } else {
                 logerror(

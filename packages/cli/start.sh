@@ -30,7 +30,7 @@ while true; do
         continue
     fi
 
-    command="yarn cli mint -i 45ee725c2c5993b3e4d308842d87e973bf1951f5f7a804b21e4dd964ecd12d6b_0 5 --fee-rate $feeRate"
+    command="yarn cli mint -i cc1b4c7e844c8a7163e0fccb79a9ade20b0793a2e86647825b7c05e8002b9f6a_0 20 --fee-rate $feeRate"
 
     $command
     command_status=$?
@@ -42,7 +42,5 @@ while true; do
         success_count=$((success_count + 1))
         echo "成功mint了 $success_count 次" | tee -a $log_file
     fi
-
-    sleep 2
 
 done
